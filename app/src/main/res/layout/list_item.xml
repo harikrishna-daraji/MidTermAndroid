@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/repositoryName"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:text="Repository Name"
+        android:layout_marginStart="5dp"
+        />
+
+    <TextView
+        android:id="@+id/ownerName"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/repositoryName"
+        android:text="Owner Name" />
+
+</RelativeLayout>
