@@ -33,9 +33,9 @@ public class GithubAdapter extends ArrayAdapter<GithubDetails> {
         GithubDetails githubDetail = githubDetails.get(position);
 
         TextView ownerName = convertView.findViewById(R.id.ownerName);
-        ownerName.setText(githubDetail.getOwnerName());
+        ownerName.setText("Owner name: "+githubDetail.getOwnerName());
         TextView repositoryName = convertView.findViewById(R.id.repositoryName);
-        repositoryName.setText(githubDetail.getRepositoryName());
+        repositoryName.setText("Repository Name: "+githubDetail.getRepositoryName());
 
         return convertView;
     }
