@@ -3,8 +3,11 @@ package com.example.midtermexam;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +58,6 @@ public class JsonParser extends AsyncTask<String,String,String> {
             httpURLConnection = (HttpURLConnection) url.openConnection();
             inputStream = new BufferedInputStream(httpURLConnection.getInputStream());
             result = readStream();
-            Log.i("TAG","got the data");
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -82,7 +84,6 @@ public class JsonParser extends AsyncTask<String,String,String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         try {
-            Log.i("TAG",result);
             jsonArray = new JSONArray(result);
 
             if(jsonArray != null) {
@@ -90,7 +91,8 @@ public class JsonParser extends AsyncTask<String,String,String> {
 
                     GithubDetails pd = new GithubDetails(
                             jsonArray.getJSONObject(index).getJSONObject("owner").getString("login"),
-                            jsonArray.getJSONObject(index).getString("name")
+                            jsonArray.getJSONObject(index).getString("name"),
+                            jsonArray.getJSONObject(index).getJSONObject("owner").getString("url")
                     );
                     githubDetails.add(pd);
                 }
@@ -102,6 +104,14 @@ public class JsonParser extends AsyncTask<String,String,String> {
             listView = (ListView)this.activity.findViewById(R.id.listView);
             GithubAdapter githubAdapter = new GithubAdapter(this.context,githubDetails);
             listView.setAdapter(githubAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    JsonParserOwner jsonParserOwner =(JsonParserOwner) new JsonParserOwner(githubDetails.get(i).getUrlStr(),activity).execute();
+                }
+            });
+
             progressDialog.cancel();
         } catch (JSONException e) {
             e.printStackTrace();
